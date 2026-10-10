@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李明 - 后端开发工程师 | 个人简历</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --secondary: #10b981;
+            --bg: #ffffff;
+            --bg-alt: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+            --shadow-hover: 0 10px 30px rgba(15, 23, 42, 0.12);
+            --transition: 200ms ease;
+        }
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-light: #60a5fa;
+            --secondary: #34d399;
+            --bg: #0f172a;
+            --bg-alt: #1e293b;
+            --card: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 20px rgba(0,0,0,0.25);
+            --shadow-hover: 0 10px 30px rgba(0,0,0,0.35);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; animation: none !important; }
+        }
+        * { box-sizing: border-box; margin:0; padding:0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding-top: 72px;
+            transition: var(--transition);
+        }
+        .container { max-width: 1100px; margin:0 auto; padding:0 20px; }
+        /* Navbar */
+        nav {
+            position: fixed; top:0; left:0; right:0; z-index: 99;
+            background: var(--card); border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+        .nav-inner { display:flex; align-items:center; justify-content:space-between; height:72px; }
+        .nav-brand { font-size:1.3rem; font-weight:700; color:var(--primary); text-decoration:none; }
+        .nav-links { display:flex; gap:24px; align-items:center; }
+        .nav-links a { color:var(--text); text-decoration:none; font-size:0.92rem; transition:var(--transition); }
+        .nav-links a:hover { color:var(--primary); }
+        .nav-actions { display:flex; gap:12px; }
+        button {
+            border:1px solid var(--border); background:var(--card); color:var(--text);
+            padding:7px 12px; border-radius:8px; cursor:pointer; font-size:0.9rem;
+            transition:var(--transition);
+        }
+        button:hover { border-color:var(--primary); color:var(--primary); }
+        .btn-primary { background:var(--primary); color:#fff; border-color:var(--primary); }
+        .btn-primary:hover { background:var(--primary-light); }
+        /* Hero */
+        .hero { padding:60px 0; display:grid; grid-template-columns: 1fr auto; gap:32px; align-items:start; }
+        @media(max-width:768px){ .hero{ grid-template-columns:1fr; } }
+        .hero h1 { font-size:2.4rem; margin-bottom:8px; }
+        .hero-sub { color:var(--text-muted); font-size:1.1rem; margin-bottom:20px; }
+        .badge-row { display:flex; flex-wrap:wrap; gap:8px; margin:20px 0; }
+        .badge {
+            padding:4px 10px; border-radius:999px; font-size:0.82rem;
+            background:var(--bg-alt); color:var(--primary); border:1px solid var(--border);
+        }
+        .badge.secondary { color:var(--secondary); }
+        .contact-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+        .qrcode-wrap { text-align:center; }
+        .qrcode-img { max-width:160px; border-radius:10px; border:1px solid var(--border); }
+        .qrcode-caption { font-size:0.85rem; color:var(--text-muted); margin-top:6px; }
+        /* Highlights */
+        section { padding:50px 0; border-bottom:1px solid var(--border); }
+        section:last-of-type { border-bottom:none; }
+        .section-title { font-size:1.6rem; margin-bottom:24px; display:flex; align-items:center; gap:10px; }
+        .highlights-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:16px; }
+        .highlight-card {
+            background:var(--card); padding:20px; border-radius:12px; border:1px solid var(--border);
+            box-shadow:var(--shadow); transition:var(--transition);
+        }
+        .highlight-card:hover { transform: translateY(-4px); box-shadow:var(--shadow-hover); }
+        .highlight-card strong { color:var(--primary); font-size:1.1rem; display:block; margin-bottom:4px; }
+        /* Tabs */
+        .tab-wrap { margin-top:16px; }
+        .tab-list { display:flex; gap:4px; border-bottom:1px solid var(--border); margin-bottom:20px; flex-wrap:wrap; }
+        .tab-btn {
+            border:none; background:transparent; border-bottom:2px solid transparent;
+            border-radius:0; padding:10px 16px; font-weight:600;
+        }
+        .tab-btn[aria-selected="true"] { border-bottom-color:var(--primary); color:var(--primary); }
+        .tab-panel { display:none; }
+        .tab-panel.active { display:block; animation: fadeIn 200ms ease; }
+        @keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
+        /* Timeline */
+        .timeline-item { margin-bottom:24px; position:relative; padding-left:22px; }
+        .timeline-item::before {
+            content:""; position:absolute; left:0; top:6px; width:8px; height:8px;
+            border-radius:50%; background:var(--primary);
+        }
+        .timeline-header { display:flex; justify-content:space-between; flex-wrap:wrap; margin-bottom:6px; }
+        .timeline-title { font-weight:700; font-size:1.05rem; }
+        .timeline-meta { color:var(--text-muted); font-size:0.9rem; }
+        .timeline ul { padding-left:20px; margin-top:8px; }
+        .timeline li { margin-bottom:8px; }
+        /* Project Cards */
+        .project-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr)); gap:20px; }
+        .project-card {
+            background:var(--card); border:1px solid var(--border); border-radius:12px; padding:22px;
+            box-shadow:var(--shadow); transition:var(--transition);
+        }
+        .project-card:hover { transform: translateY(-4px); box-shadow:var(--shadow-hover); }
+        .project-title { font-weight:700; font-size:1.15rem; margin-bottom:6px; }
+        .project-meta { color:var(--text-muted); font-size:0.88rem; margin-bottom:10px; }
+        .project-desc { margin-bottom:12px; font-size:0.95rem; }
+        .project-img { width:100%; height:180px; object-fit:cover; border-radius:8px; margin-bottom:14px; border:1px solid var(--border); }
+        /* Skill matrix */
+        .skill-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:20px; }
+        .skill-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px; }
+        .skill-card h4 { margin-bottom:12px; color:var(--primary); }
+        .skill-item { margin-bottom:10px; }
+        .skill-label { display:flex; justify-content:space-between; font-size:0.9rem; margin-bottom:4px; }
+        .skill-bar { height:8px; background:var(--bg-alt); border-radius:999px; overflow:hidden; }
+        .skill-fill { height:100%; background:linear-gradient(90deg, var(--primary), var(--secondary)); border-radius:999px; }
+        /* Social image block */
+        .social-block { margin-top:30px; padding:24px; background:var(--card); border-radius:12px; border:1px solid var(--border); }
+        .social-img { max-width:220px; border-radius:10px; border:1px solid var(--border); }
+        /* Education & Awards */
+        .edu-item, .award-item { margin-bottom:16px; }
+        .edu-header, .award-header { display:flex; justify-content:space-between; flex-wrap:wrap; }
+        /* Back to top */
+        .back-top {
+            position:fixed; bottom:24px; right:24px; z-index:90;
+            width:44px; height:44px; border-radius:50%;
+            display:grid; place-items:center; box-shadow:var(--shadow);
+            opacity:0; pointer-events:none; transition:var(--transition);
+        }
+        .back-top.visible { opacity:1; pointer-events:auto; }
+        footer { padding:30px 0; color:var(--text-muted); font-size:0.88rem; text-align:center; }
+        /* Print */
+        @media print {
+            body { padding-top:0; background:#fff; color:#111; }
+            nav, .back-top, button:not(.print-keep) { display:none !important; }
+            section { border-bottom:1px solid #ddd; page-break-inside:avoid; }
+            .tab-panel { display:block !important; }
+            .tab-list { display:none; }
+            .highlight-card, .project-card, .skill-card { box-shadow:none; border:1px solid #ddd; }
+            a { color:#111; text-decoration:none; }
+            .qrcode-img, .project-img, .social-img { max-width:140px; }
+        }
+        /* Mobile */
+        @media(max-width:768px) {
+            .nav-links { display:none; }
+            .hero h1 { font-size:1.8rem; }
+            .project-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container nav-inner">
+            <a href="#top" class="nav-brand">李明</a>
+            <div class="nav-links">
+                <a href="#highlights">亮点</a>
+                <a href="#experience">经历</a>
+                <a href="#projects">项目</a>
+                <a href="#skills">技能</a>
+                <a href="#edu">教育</a>
+                <a href="#social">社交</a>
+            </div>
+            <div class="nav-actions">
+                <button id="themeBtn">🌓 主题</button>
+                <button class="btn-primary" id="printBtn">🖨 打印简历</button>
+            </div>
+        </div>
+    </nav>
+
+    <main id="top" class="container">
+        <section class="hero">
+            <div class="hero-text">
+                <h1>李明｜后端开发工程师</h1>
+                <p class="hero-sub">擅长高并发业务开发、分布式系统设计，熟悉中间件与云原生技术，具备可量化线上优化成果。</p>
+                <div class="badge-row" id="heroBadges"></div>
+                <div class="contact-row" id="contactRow"></div>
+            </div>
+            <div class="qrcode-wrap">
+                <img src="微信二维码.jpg" alt="微信二维码" class="qrcode-img">
+                <p class="qrcode-caption">微信扫码联系我</p>
+            </div>
+        </section>
+
+        <section id="highlights">
+            <h2 class="section-title">✨ 核心亮点成果</h2>
+            <div class="highlights-grid" id="highlightsGrid"></div>
+        </section>
+
+        <section id="experience">
+            <h2 class="section-title">💼 工作 & 实习经历</h2>
+            <div class="tab-wrap">
+                <div class="tab-list" role="tablist" id="expTabList"></div>
+                <div id="expPanels"></div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2 class="section-title">📦 项目经历</h2>
+            <div class="tab-wrap">
+                <div class="tab-list" role="tablist" id="projTabList"></div>
+                <div id="projPanels"></div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2 class="section-title">⚙️ 技能矩阵</h2>
+            <div class="skill-grid" id="skillGrid"></div>
+        </section>
+
+        <section id="edu">
+            <h2 class="section-title">🎓 教育背景 & 证书获奖</h2>
+            <div id="eduBlock"></div>
+        </section>
+
+        <section id="social">
+            <h2 class="section-title">📱 社交主页与作品集</h2>
+            <div class="social-block">
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:24px;">
+                    <div style="text-align:center;">
+                        <img src="account1.jpg" alt="抖音主页截图" class="social-img">
+                        <p style="margin-top:8px;">抖音主页</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <img src="worek_1.jpg" alt="作品集第一张作品" class="social-img">
+                        <p style="margin-top:8px;">作品集作品 #1</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="container">
+        <p>© <span id="year"></span> 李明 | 简历网页自动渲染，更新时间：2026-10-08</p>
+    </footer>
+
+    <a href="#top" class="back-top" id="backTop">↑</a>
+
+    <script>
+        const resume = {
+            name: "李明",
+            phone: "138-xxxx-xxxx",
+            emailRaw: "liming@email.com",
+            github: "github.com/liming-dev",
+            location: "北京",
+            heroTags: ["Java","SpringBoot","Redis","RabbitMQ","MySQL","分布式","高并发","Docker","Linux"],
+            highlights: [
+                { title:"接口性能优化", desc:"订单模块重构，核心接口响应从320ms降至85ms，性能提升73%" },
+                { title:"秒杀防超卖", desc:"基于Redisson分布式锁支撑峰值QPS 12000+，活动零超卖事故" },
+                { title:"监控体系落地", desc:"Prometheus+Grafana，线上问题发现时间由30分钟缩短至3分钟" },
+                { title:"校园平台落地", desc:"二手交易平台覆盖12000+师生，交易3200+笔，获互联网+银奖" }
+            ],
+            experienceTabs: [
+                {
+                    label:"后端实习",
+                    id:"exp-intern",
+                    items:[
+                        {
+                            org:"XX科技有限公司",
+                            title:"后端开发实习生｜北京",
+                            time:"2025.07 - 2025.09",
+                            points:[
+                                "主导订单模块重构：针对日均50万+订单高并发场景，引入Redis缓存层与RabbitMQ异步队列，核心接口平均响应时间从320ms降低至85ms，提升73%。",
+                                "设计实现分布式锁方案：基于Redisson解决秒杀库存超卖，支撑峰值QPS 12000+，活动期间零超卖事故。",
+                                "搭建自动化监控告警体系：集成Prometheus+Grafana，覆盖20+核心指标，线上问题平均发现时间从30分钟缩短至3分钟。",
+                                "输出技术文档与Code Review规范：撰写3份开发规范，Review代码5000+行，团队代码缺陷率下降40%。"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            projectTabs: [
+                {
+                    label:"校园项目",
+                    id:"proj-campus",
+                    items:[
+                        {
+                            name:"易换｜校园二手交易平台",
+                            role:"项目负责人 & 后端主程",
+                            time:"2024.10 - 2025.01",
+                            tech:"Spring Boot、MySQL、Redis、JWT、Elasticsearch、Docker、Nginx",
+                            desc:"从0到1搭建后端架构，实现用户认证、商品发布、IM、订单交易6大模块，代码8000+行；ES全文检索+个性化推荐，商品点击率提升45%；Docker+Nginx负载均衡，支持500+并发；覆盖全校12000+师生，3200+笔交易，获校级互联网+银奖，GitHub 200+ Stars。",
+                            img:"worek_1.jpg"
+                        },
+                        {
+                            name:"分布式任务调度系统",
+                            role:"独立开发｜课程设计",
+                            time:"2025.03 - 2025.05",
+                            tech:"ZooKeeper、一致性Hash、Java",
+                            desc:"基于ZK实现节点注册与发现，一致性Hash任务分片调度；实现失败重试与故障转移，任务成功率99.6%；课程得分96/100，选为下届课程参考范例。"
+                        }
+                    ]
+                }
+            ],
+            skillGroups: [
+                { title:"编程语言", list:[
+                    {name:"Java", pct:90},
+                    {name:"Python", pct:85},
+                    {name:"Go", pct:60}
+                ]},
+                { title:"后端框架", list:[
+                    {name:"Spring Boot", pct:90},
+                    {name:"Spring Cloud", pct:80},
+                    {name:"MyBatis", pct:85},
+                    {name:"Django", pct:70}
+                ]},
+                { title:"数据库 & 缓存", list:[
+                    {name:"MySQL(索引/事务)", pct:88},
+                    {name:"Redis(缓存策略)", pct:85}
+                ]},
+                { title:"中间件 & 工程化", list:[
+                    {name:"RabbitMQ / Kafka", pct:80},
+                    {name:"Nginx", pct:78},
+                    {name:"Docker / Linux", pct:82},
+                    {name:"CI/CD Jenkins / AWS", pct:70}
+                ]}
+            ],
+            education: {
+                school:"XX大学（985/211）",
+                major:"计算机科学与技术｜工学学士",
+                time:"2023.09 - 2027.06（预计）",
+                gpa:"GPA：3.7/4.0（专业前15%）",
+                courses:"核心课程：数据结构与算法、操作系统、计算机网络、数据库系统、分布式系统"
+            },
+            awards: [
+                {name:"校级互联网+大学生创新创业大赛 银奖", date:"2025.03"},
+                {name:"CCPC全国大学生程序设计竞赛 省级二等奖", date:"2024.11"},
+                {name:"CET-6 568分", date:"2024.06"},
+                {name:"阿里云ACA云计算工程师认证", date:"2025.01"}
+            ]
+        };
+
+        // Render hero badges
+        const heroBadges = document.getElementById("heroBadges");
+        resume.heroTags.forEach(t => {
+            const span = document.createElement("span");
+            span.className = "badge"; span.textContent = t;
+            heroBadges.appendChild(span);
+        });
+
+        // Contact row
+        const contactRow = document.getElementById("contactRow");
+        function addContactBtn(label, icon, onClick) {
+            const btn = document.createElement("button");
+            btn.className = "btn-primary";
+            btn.textContent = icon + " " + label;
+            btn.onclick = onClick;
+            contactRow.appendChild(btn);
+        }
+        addContactBtn("复制邮箱", "📧", ()=>{
+            const addr = resume.emailRaw;
+            navigator.clipboard.writeText(addr).then(()=>alert("邮箱已复制："+addr));
+        });
+        addContactBtn("打开GitHub", "💻", ()=>window.open("https://"+resume.github,"_blank"));
+
+        // Highlights
+        const hg = document.getElementById("highlightsGrid");
+        resume.highlights.forEach(item=>{
+            const card = document.createElement("div");
+            card.className = "highlight-card";
+            card.innerHTML = `<strong>${item.title}</strong><span>${item.desc}</span>`;
+            hg.appendChild(card);
+        });
+
+        // Tabs helper
+        function buildTabs(tabsData, listId, panelId){
+            const listEl = document.getElementById(listId);
+            const panelWrap = document.getElementById(panelId);
+            tabsData.forEach((tab, idx)=>{
+                const btn = document.createElement("button");
+                btn.className = "tab-btn";
+                btn.role = "tab";
+                btn.ariaSelected = idx===0 ? "true":"false";
+                btn.ariaControls = tab.id;
+                btn.textContent = tab.label;
+                btn.tabIndex = idx===0 ? 0:-1;
+                btn.onclick = ()=>activateTab(tabsData, tab.id, listEl);
+                btn.onkeydown = (e)=>{
+                    if(e.key==="ArrowRight"){ const n=findNext(listEl.children, btn); n&&n.focus(); }
+                    if(e.key==="ArrowLeft"){ const p=findPrev(listEl.children, btn); p&&p.focus(); }
+                };
+                listEl.appendChild(btn);
+
+                const panel = document.createElement("div");
+                panel.id = tab.id;
+                panel.role = "tabpanel";
+                panel.className = "tab-panel " + (idx===0 ? "active":"");
+                let html = `<div class="timeline">`;
+                tab.items.forEach(it=>{
+                    html += `<div class="timeline-item">`;
+                    // 如果项目有图片，放在最上方
+                    if(it.img){
+                        html += `<img src="${it.img}" alt="${it.name} 作品预览" class="project-img">`;
+                    }
+                    html += `
+                        <div class="timeline-header">
+                            <div class="timeline-title">${it.org || it.name}</div>
+                            <div class="timeline-meta">${it.time}</div>
+                        </div>
+                        <div>${it.title || it.role}</div>
+                        <ul>${it.points ? it.points.map(p=>`<li>${p}</li>`).join("") : `<li>${it.desc}</li>`}</ul>
+                        ${it.tech ? `<div class="badge-row">${it.tech.split("、").map(s=>`<span class="badge">${s}</span>`).join("")}</div>`:""}
+                    </div>`;
+                });
+                html += `</div>`;
+                panel.innerHTML = html;
+                panelWrap.appendChild(panel);
+            });
+        }
+        function activateTab(allTabs, activeId, listEl){
+            Array.from(listEl.children).forEach(b=>{
+                const isActive = b.ariaControls === activeId;
+                b.ariaSelected = isActive; b.tabIndex = isActive ? 0:-1;
+            });
+            document.querySelectorAll(".tab-panel").forEach(p=>p.classList.remove("active"));
+            document.getElementById(activeId).classList.add("active");
+        }
+        function findNext(nodes, curr){
+            const arr = Array.from(nodes);
+            const i = arr.indexOf(curr);
+            return arr[(i+1)%arr.length];
+        }
+        function findPrev(nodes, curr){
+            const arr = Array.from(nodes);
+            const i = arr.indexOf(curr);
+            return arr[(i-1+arr.length)%arr.length];
+        }
+        buildTabs(resume.experienceTabs, "expTabList", "expPanels");
+        buildTabs(resume.projectTabs, "projTabList", "projPanels");
+
+        // Skill matrix
+        const skillGrid = document.getElementById("skillGrid");
+        resume.skillGroups.forEach(g=>{
+            const card = document.createElement("div");
+            card.className = "skill-card";
+            let html = `<h4>${g.title}</h4>`;
+            g.list.forEach(s=>{
+                html += `
+                <div class="skill-item">
+                    <div class="skill-label"><span>${s.name}</span><span>${s.pct}%</span></div>
+                    <div class="skill-bar"><div class="skill-fill" style="width:${s.pct}%"></div></div>
+                </div>`;
+            });
+            card.innerHTML = html;
+            skillGrid.appendChild(card);
+        });
+
+        // Education & Awards
+        const eduBlock = document.getElementById("eduBlock");
+        let eduHtml = `
+        <div class="edu-item">
+            <div class="edu-header">
+                <strong>${resume.education.school}</strong>
+                <span class="timeline-meta">${resume.education.time}</span>
+            </div>
+            <div>${resume.education.major}</div>
+            <div class="timeline-meta">${resume.education.gpa}</div>
+            <div class="timeline-meta">${resume.education.courses}</div>
+        </div>
+        <h3 style="margin:24px 0 12px">🏅 获奖与证书</h3>
+        `;
+        resume.awards.forEach(a=>{
+            eduHtml += `
+            <div class="award-item">
+                <div class="edu-header">
+                    <span>${a.name}</span>
+                    <span class="timeline-meta">${a.date}</span>
+                </div>
+            </div>`;
+        });
+        eduBlock.innerHTML = eduHtml;
+
+        // Theme
+        const themeBtn = document.getElementById("themeBtn");
+        const savedTheme = localStorage.getItem("cv-theme");
+        if(savedTheme) document.documentElement.setAttribute("data-theme", savedTheme);
+        themeBtn.onclick = ()=>{
+            const curr = document.documentElement.getAttribute("data-theme");
+            const next = curr==="dark" ? "light":"dark";
+            document.documentElement.setAttribute("data-theme", next);
+            localStorage.setItem("cv-theme", next);
+        };
+
+        // Print
+        document.getElementById("printBtn").onclick = ()=> window.print();
+
+        // Back to top
+        const backTop = document.getElementById("backTop");
+        window.addEventListener("scroll", ()=>{
+            if(window.scrollY > 400) backTop.classList.add("visible");
+            else backTop.classList.remove("visible");
+        });
+
+        // Footer year
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
